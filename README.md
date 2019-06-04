@@ -1,6 +1,6 @@
 # HappyPanda X Desktop Client
 
-##### This is a standalone client for [HappyPanda X](https://github.com/happypandax/happypandax) on the desktop that looks and works like the default HPX webclient.
+##### This is a standalone client for [HappyPanda X](https://github.com/happypandax/happypandax) on the desktop that looks like the default HPX webclient but is slightly faster due to talking with the HPX server directly. It will also have better desktop integration since it's allowed to work outside the browser sandbox and interact with the system directly.
 
 ##### It requires HappyPanda X server `v0.10.0` and up
 
