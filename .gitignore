@@ -1,0 +1,13 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/node_modules
+/obj
+/bin/*
+*.njsproj*
+/static/thumbnails
+/static/Thumbs.db
+/data
+/dist
+/desktop.json

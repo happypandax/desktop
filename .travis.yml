@@ -1,0 +1,74 @@
+notifications:
+    email:
+        on_success: never
+        on_failure: always
+language: node_js
+addons:
+    apt:
+        update: true
+env:
+    global:
+        - GH_USER=Twiddly
+        - GH_MAIL=pew@pewpew.moe
+        - REPO=happypandax/desktop
+        - DEPLOY_REPO=happypandax/desktop
+        - secure: XiUXHPc5pgrdIxHkYXzGRDAqdDCpuszKAJ/75+ZSjH+/Nv5uYLtP9LXzmOZm/x6rxIyNXP408sTnULm+Y+HfWoNV1sCaEwa50NniCPcbuEOtKe0N8o6VKbAmIaxyRZaThvDdIrB2U7VDI9Y+qeRuYfNEM77tEXklzu5SF2sfOAyaMQTdh1qCbGz4++EcZ2451ov8ZHTmHpEMCbUNeK9QZFSA14exFd5VlKYlDrehjoqFATR0Uypcjufh/uJluOWFpscG9duR2aChHkxZu/hH7UYNYRQG/N1VRYUR0g+tQ3CDMWBzIjbkASorZJydy1p53UVUEkTMwhSFw1SGCdAhobPUXlpeYFp9C932ODEhUkzEM3GmmEeV+53mq7nzi6bmOL3SdsWJnf5EZrPI2OOVqgkf2Nh/LkmhANlypcKDmWJOK+izUuMH6q/cl0ZnLSI+WsZU4d1WStfMrqNHE+/3fpwG8yf7CJ2788tzYHyPO9vzJvGsAoY3Z272BQ8rm6yFc/SWE6Mc93wC0vZ5Bd1WfOGMRWn6GVyvvyFKri86pgGj0N7BxXInMS4EWc/AD6r5RLc8xrTYKs0u+VHFAtWnnv7NlhXHnZUqPcSzpAvrhvc91575o7HNC2z/czJIT73eN1oXUMFqTkCvxYg2mC41VSvxf70CPYXAu/DBHLn1uio=
+
+matrix:
+    include:
+        - os: linux
+          sudo: required
+          dist: trusty
+        - os: osx
+          language: generic
+
+cache:
+    directories:
+        - node_modules
+
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then nvm install 8; fi
+    - node --version
+    - npm update -g npm
+
+install:
+    - npm install
+
+before_deploy:
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm run dist-linux; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run dist-osx; fi
+
+    - export APP_VERSION=$(node -pe "require('./package.json').version")
+    - export APP_RELEASE_NAME=HappyPanda X Desktop v$APP_VERSION
+    - export VERSION_TAG=v$APP_VERSION
+
+    - CWD=$(pwd)
+    - git clone https://github.com/$DEPLOY_REPO.git ../_travis_deploy_repo
+    - cd ../_travis_deploy_repo
+    - git config --local user.name "$GH_USER"
+    - git config --local user.email "$GH_MAIL"
+    - git tag -a $VERSION_TAG -m "$APP_RELEASE_NAME" || echo "Tag already exists, skipping"
+    - git push --quiet "https://$GITHUB_TOKEN@github.com/$DEPLOY_REPO.git" $VERSION_TAG > /dev/null 2>&1 || echo  "Tag already exists, skipping"
+    - echo $APP_RELEASE_NAME
+    - cd $CWD
+
+    - git config --local user.name "$GH_USER"
+    - git config --local user.email "$GH_MAIL"
+    - git tag -a $VERSION_TAG -m "$APP_RELEASE_NAME" || echo "Tag already exists, skipping"
+
+    - ls -l dist/files
+
+deploy:
+    provider: releases
+    overwrite: true
+    skip_cleanup: true
+    tag_name: $VERSION_TAG
+    name: $APP_RELEASE_NAME
+    file_glob: true
+    file: dist/*
+    draft: true
+    target_commitish: master
+    api_key: $GITHUB_TOKEN
+    repo: $DEPLOY_REPO
+    on:
+        branch: master

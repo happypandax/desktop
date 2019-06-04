@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HPX Desktop</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/../static/favicon/apple-touch-icon.png?v=kPxXam0OO4">
+    <link rel="icon" type="image/png" sizes="32x32" href="/../static/favicon/favicon-32x32.png?v=kPxXam0OO4">
+    <link rel="icon" type="image/png" sizes="16x16" href="/../static/favicon/favicon-16x16.png?v=kPxXam0OO4">
+    <link rel="manifest" href="/../static/favicon/site.webmanifest?v=kPxXam0OO4">
+    <link rel="mask-icon" href="/../static/favicon/safari-pinned-tab.svg?v=kPxXam0OO4" color="#363636">
+    <link rel="shortcut icon" href="/../static/favicon/favicon.ico?v=kPxXam0OO4">
+    <meta name="apple-mobile-web-app-title" content="HappyPanda X">
+    <meta name="application-name" content="HappyPanda X">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="/../static/css/semantic.min.css" />
+</head>
+<body>
+    <div class="ui centered middle aligned grid fullheight">
+    <div class="row"></div>
+    <div class="row">
+        <div largescreen="4"
+             class="seven wide computer fifteen wide mobile nine wide tablet three wide widescreen seven wide column">
+            <div class="ui clearing segment grey inverted">
+                <div id="segment-loader" class="ui dimmer">
+                    <div id="segment-loader-text" class="ui text loader">Loading</div>
+                </div>
+                <center><i aria-hidden="true" class="massive icon hpx-alternative"></i></center>
+                <div class="ui hidden horizontal divider"></div>
+                <form id="start-form" class="ui form" onsubmit="return on_start_hpx(event)">
+                    <div class="ui error message">Failed to start HPX</div>
+                    <input type="hidden" name="start-server">
+                    <div class="field">
+                        <button role="submit" class="ui fluid inverted button">Start HPX</button>
+                    </div>
+                    <div id="start-options" class="ui accordion">
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            Options
+                        </div>
+                        <div class="content">
+                            <div class="ui basic segment transition visible small">
+                                <div class="field">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="default-start" onchange="on_default_option(this)">
+                                        <label>Make default startup method</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>HPX Executable</label>
+                                    <div class="ui input"><input placeholder="Double click to select executable" type="text" name="executable" ondblclick="open_dialog_by_name('select-executable')" onchange="on_executable_option(this)"></div>
+                                    <input type="file" name="select-executable" onchange="on_executable_select(this)" style="display: none;">
+                                </div>
+                                <div class="fields">
+                                    <div class="field eleven wide">
+                                        <label>HPX Server Host</label>
+                                        <div class="ui input"><input placeholder="http://localhost" type="text" name="start-host" onchange="on_start_server_option(this)"></div>
+                                    </div>
+                                    <div class="field five wide">
+                                        <label>HPX Server Port</label>
+                                        <div class="ui input"><input placeholder="7007" type="text" name="start-port" onchange="on_start_server_option(this)"></div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="field eleven wide">
+                                        <label>HPX Webserver Host</label>
+                                        <div class="ui input"><input placeholder="http://localhost" type="text" name="start-webhost" onchange="on_start_server_option(this)"></div>
+                                    </div>
+                                    <div class="field five wide">
+                                        <label>HPX Webserver Port</label>
+                                        <div class="ui input"><input placeholder="7008" type="text" name="start-webport" onchange="on_start_server_option(this)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="ui horizontal divider">Or connect to existing server</div>
+                <form id="connect-form" class="ui form" onsubmit="return on_connect_hpx(event)">
+                    <div class="ui error message">Failed to connect</div>
+                    <div class="fields">
+                        <div class="field eleven wide">
+                            <label>HPX Server Host</label>
+                            <div class="ui input"><input placeholder="http://localhost" type="text" name="server-host" onchange="on_server_option(this)"></div>
+                        </div>
+                        <div class="field five wide">
+                            <label>HPX Server Port</label>
+                            <div class="ui input"><input placeholder="7007" type="text" name="server-port" onchange="on_server_option(this)"></div>
+                        </div>
+                    </div>
+                    <div id="connect-options" class="ui accordion">
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            Options
+                        </div>
+                        <div class="content">
+                            <div class="ui basic segment transition visible small">
+                                <div class="field">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="default-connect" onchange="on_default_option(this)">
+                                        <label>Make default startup method</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="ui inverted right floated button" role="button">Connect</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row"></div>
+    </div>
+    <script src="/../app/index.js"></script>
+</body>
+</html>

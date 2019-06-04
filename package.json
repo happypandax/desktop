@@ -1,0 +1,48 @@
+{
+  "name": "happypandax-desktop",
+  "description": "A client for HappyPanda X on the desktop",
+  "version": "0.1.0",
+  "product_string": "HappyPanda X Desktop",
+  "main": "app/main.js",
+  "user-agent": "HappyPanda X Desktop/%ver/%osinfo",
+  "scripts": {
+    "dist-win": "build --tasks win-x86,win-x64 --mirror https://dl.nwjs.io/ .",
+    "dist-osx": "build --tasks mac-x64 --mirror https://dl.nwjs.io/ .",
+    "dist-linux": "build --tasks linux-x86,linux-x64 --mirror https://dl.nwjs.io/ .",
+    "start": "run --x86 --mirror https://dl.nwjs.io/ .",
+    "version": "\"node -pe \"require('./package.json').version\"\""
+  },
+  "domain": "happypandax.desktop",
+  "chromium-args": "--mixed-context --enable-node-worker --user-data-dir=data --windows10-custom-titlebar --dark_muted --desktop-window-1080p --enable-smooth-scrolling --fast --hide-scrollbars --homedir=./",
+  "dependencies": {},
+  "devDependencies": {
+    "nwjs-builder-phoenix": "^1.15.0"
+  },
+  "build": {
+    "nwVersion": "stable",
+    "nwFlavor": "normal",
+    "files": [ "static/**/*", "app/**/*", "templates/**/*" ],
+    "excludes": [ "**/Thumbs.db" ],
+    "targets": [ "zip", "nsis" ],
+    "outputPattern": "${NAME}-${VERSION}-${PLATFORM}-${ARCH",
+    "appId": "com.happypandax.desktop",
+    "win": {
+      "appName": "HappyPanda X Desktop",
+      "productName": "HappyPanda X Desktop",
+      "companyName": "Twiddly",
+      "icon": "deploy/icons/app.ico",
+      "copyright": "Copyright © 2018, Twiddly, All Rights Reserved"
+    },
+    "mac": {
+      "name": "HappyPanda X Desktop",
+      "displayName": "HappyPanda X Desktop",
+      "copyright": "Copyright © 2018, Twiddly, All Rights Reserved",
+      "icon": "deploy/icons/app.icns",
+      "documentIcon": "deploy/icons/app.icns"
+    },
+    "nsis": {
+      "icon": "deploy/icons/app.ico",
+      "unIcon": "deploy/icons/app.ico"
+    }
+  }
+}

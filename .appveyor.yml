@@ -1,0 +1,61 @@
+
+notifications:
+    - provider: Email
+      on_build_failure: true
+      on_build_success: false
+      on_build_status_changed: false
+version: '{build}'
+environment:
+    APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    GH_USER: Twiddly
+    GH_MAIL: pew@pewpew.moe
+    REPO: happypandax/desktop
+    DEPLOY_REPO: happypandax/desktop
+    GITHUB_TOKEN:
+        secure: UbDE39E3g8bCgmOhSR4A7FjrAcEsZP+5d1C/pNIwtM6yzeD7HjRE2S+KmpUcO94s
+
+cache:
+    - node_modules
+
+install:
+    #- ps: Install-Product node 8
+    - node -v
+    - npm -v
+    - npm install
+
+build: off
+
+build_script:
+    - npm run dist-win
+
+before_deploy:
+    - node -pe "require('./package.json').version" > _app_version_ci
+    - set /p APP_VERSION=<_app_version_ci
+    - set VERSION_TAG="v%APP_VERSION%"
+    - set APP_RELEASE_NAME="HappyPanda X Desktop v%APP_VERSION%"
+    - appveyor AddMessage "%APP_VERSION%"
+    - appveyor SetVariable -Name "APP_VERSION" -Value "%APP_VERSION%"
+    - appveyor AddMessage "%APP_RELEASE_NAME%"
+    - appveyor SetVariable -Name "APP_RELEASE_NAME" -Value "%APP_RELEASE_NAME%"
+    - appveyor AddMessage "%VERSION_TAG%"
+    - appveyor SetVariable -Name "VERSION_TAG" -Value "%VERSION_TAG%"
+    - git config --local user.name "%GH_USER%"
+    - git config --local user.email "%GH_MAIL%"
+    - git tag -a %VERSION_TAG% -m "%APP_RELEASE_NAME%" & exit 0
+    - git push --quiet "https://%GITHUB_TOKEN%@github.com/%REPO%.git" %VERSION_TAG% >nul 2>&1 & exit 0
+    - dir "dist"
+    - ps: Get-ChildItem .\dist\*.zip | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+    - ps: Get-ChildItem .\dist\*.exe | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+
+deploy:
+    provider: GitHub
+    auth_token: $(GITHUB_TOKEN)
+    artifact: /.*/
+    release: $(APP_RELEASE_NAME)
+    description: ''
+    tag: $(VERSION_TAG)
+    draft: true
+    force_update: true
+    repository: $(DEPLOY_REPO)
+    on:
+        branch: master
