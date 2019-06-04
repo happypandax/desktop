@@ -32,7 +32,7 @@ before_deploy:
     - node -pe "require('./package.json').version" > _app_version_ci
     - set /p APP_VERSION=<_app_version_ci
     - set VERSION_TAG="v%APP_VERSION%"
-    - set APP_RELEASE_NAME="HappyPanda X Desktop v%APP_VERSION%"
+    - set APP_RELEASE_NAME=HappyPanda X Desktop v%APP_VERSION%
     - appveyor AddMessage "%APP_VERSION%"
     - appveyor SetVariable -Name "APP_VERSION" -Value "%APP_VERSION%"
     - appveyor AddMessage "%APP_RELEASE_NAME%"
