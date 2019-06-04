@@ -12,7 +12,7 @@ environment:
     REPO: happypandax/desktop
     DEPLOY_REPO: happypandax/desktop
     GITHUB_TOKEN:
-        secure: UbDE39E3g8bCgmOhSR4A7FjrAcEsZP+5d1C/pNIwtM6yzeD7HjRE2S+KmpUcO94s
+        secure: mN4E+ThbQZ3junS4hr7VxVaGPizqCSfvhxdHq00TOws0bq9HIUulIN6aU9shce0Q
 
 cache:
     - node_modules
