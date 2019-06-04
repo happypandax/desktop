@@ -39,7 +39,7 @@ before_deploy:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run dist-osx; fi
 
     - export APP_VERSION=$(node -pe "require('./package.json').version")
-    - export APP_RELEASE_NAME=HappyPanda X Desktop v$APP_VERSION
+    - export APP_RELEASE_NAME="HappyPanda X Desktop v$APP_VERSION"
     - export VERSION_TAG=v$APP_VERSION
 
     - CWD=$(pwd)
