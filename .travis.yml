@@ -55,7 +55,7 @@ before_deploy:
     - git config --local user.email "$GH_MAIL"
     - git tag -a $VERSION_TAG -m "$APP_RELEASE_NAME" || echo "Tag already exists, skipping"
 
-    - ls -l dist
+    - ls -l -R dist
 
 deploy:
     provider: releases
