@@ -1,11 +1,11 @@
 const EventEmitter = require('events');
 const client = require('./client');
 const log = require('./log');
-const Promise = require('./bluebird');
+//const Promise = require('./bluebird');
 const crypto = require('crypto');
 const AsyncLock = require('./async_lock');
 
-Promise.longStackTraces();
+//Promise.longStackTraces();
 
 (function () {
 
