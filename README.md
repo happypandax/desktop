@@ -12,8 +12,6 @@
 
 # Examples
 
-HappyPanda X comes bundled with a default webclient front-end
-
 <p align="center">
 <img src="https://user-images.githubusercontent.com/11841002/50736708-9dc37d80-11b8-11e9-8344-87faedd4d915.jpg" width="200">
 <img src="https://user-images.githubusercontent.com/11841002/50736710-a1570480-11b8-11e9-863d-2869f235588b.png" width="200">
