@@ -24,19 +24,19 @@
     "files": [ "static/**/*", "app/**/*", "templates/**/*" ],
     "excludes": [ "**/Thumbs.db" ],
     "targets": [ "zip", "nsis" ],
-    "outputPattern": "${NAME}-${VERSION}-${PLATFORM}-${ARCH",
+    "outputPattern": "${NAME}-${VERSION}-${PLATFORM}-${ARCH}",
     "appId": "com.happypandax.desktop",
     "win": {
       "appName": "HappyPanda X Desktop",
       "productName": "HappyPanda X Desktop",
       "companyName": "Twiddly",
       "icon": "deploy/icons/app.ico",
-      "copyright": "Copyright © 2018, Twiddly, All Rights Reserved"
+      "copyright": "Copyright Â© 2018, Twiddly, All Rights Reserved"
     },
     "mac": {
       "name": "HappyPanda X Desktop",
       "displayName": "HappyPanda X Desktop",
-      "copyright": "Copyright © 2018, Twiddly, All Rights Reserved",
+      "copyright": "Copyright Â© 2018, Twiddly, All Rights Reserved",
       "icon": "deploy/icons/app.icns",
       "documentIcon": "deploy/icons/app.icns"
     },

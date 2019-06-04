@@ -2,7 +2,7 @@ const net = require('net');
 const zlib = require('zlib');
 const { Transform } = require('stream');
 const log = require('./log');
-const Promise = require('./bluebird');
+//const Promise = require('./bluebird');
 const fs = require('fs');
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -13,7 +13,7 @@ process.on('unhandledRejection', (reason, promise) => {
     // or whatever crash reporting service you use
 })
 
-Promise.longStackTraces();
+//Promise.longStackTraces();
 
 const encoding = "utf8"
 
