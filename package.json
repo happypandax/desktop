@@ -1,7 +1,7 @@
 {
   "name": "happypandax-desktop",
   "description": "A client for HappyPanda X on the desktop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "product_string": "HappyPanda X Desktop",
   "main": "app/main.js",
   "user-agent": "HappyPanda X Desktop/%ver/%osinfo",
