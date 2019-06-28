@@ -14,7 +14,7 @@ var WEBSERVER_PORT = 7008;
 var SERVER_URL = (SERVER_SSL ? 'https://' : 'http://') + SERVER_HOST + ':' + SERVER_PORT.toString();
 var WEBSERVER_URL = (SERVER_SSL ? 'https://' : 'http://') + WEBSERVER_HOST + ':' + WEBSERVER_PORT.toString();
 var SOCKETIO_MODULE = require('../app/socket-io-client');
-var VERSION = "0.1.0";
+var VERSION = "0.1.1";
 var TITLE = "HPX Desktop - Alpha";
 
 function IS_SAME_MACHINE(host) {
