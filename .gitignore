@@ -10,4 +10,5 @@
 /static/Thumbs.db
 /data
 /dist
+/dist-cache
 /desktop.json

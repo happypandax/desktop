@@ -1,11 +1,30 @@
 const EventEmitter = require('events');
-const client = require('./client');
-const log = require('./log');
-//const Promise = require('./bluebird');
 const crypto = require('crypto');
+const fs = require('fs');
+const hpxclient = require('happypandax-client');
+
+const log = require('./log');
 const AsyncLock = require('./async_lock');
 
-//Promise.longStackTraces();
+let options;
+
+function get_server() {
+    if (!options && fs.existsSync(global.CONFIG_PATH)) {
+        let data = fs.readFileSync(global.CONFIG_PATH, 'utf8')
+        if (data) {
+            options = JSON.parse(data)
+
+            if (options.c_server_host !== undefined) {
+                global.SERVER.HOST = options.c_server_host
+            }
+
+            if (options.c_server_port !== undefined) {
+                global.SERVER.PORT = options.c_server_port
+            }
+        }
+    }
+    return [global.SERVER.HOST, global.SERVER.PORT]
+}
 
 (function () {
 
@@ -18,11 +37,15 @@ const AsyncLock = require('./async_lock');
     let all_emitters = {}
 
     function _create_clients(id, session_id) {
+
+        let [host, port] = get_server()
+
         session_id = session_id || ""
         all_clients[id] = {
-            "client": new client.Client("webclient", undefined, session_id, id),
-            "notification": new client.Client("notification", undefined, session_id, id),
-            "command": new client.Client("command", undefined, session_id, id)
+            "client": new hpxclient.Client({name:"webclient", session_id, host, port}),
+            "notification": new hpxclient.Client({name:"webclient", session_id, host, port}),
+            "thumbnail": new hpxclient.Client({name:"thumbnail", session_id, host, port}),
+            "command": new hpxclient.Client({name:"webclient", session_id, host, port})
         }
 
     }
@@ -46,6 +69,11 @@ const AsyncLock = require('./async_lock');
         for (var name in clients)
             p = await clients[name].connect()
         return p
+    }
+
+    async function _logout_clients(clients) {
+        for (var name in clients)
+            await clients[name].logout()
     }
 
     async function _handshake_clients(clients, username, password, request) {
@@ -205,12 +233,14 @@ const AsyncLock = require('./async_lock');
                     'status': 4,
                     'handshake': 5,
                     'rehandshake': 6,
+                    'logout': 7,
                 }
 
                 let d = {
                     'status': null,
                     'accepted': null,
                     'version': {},
+                    'session': '',
                     'guest_allowed': null,
                     'id': msg.id || null
                 }
@@ -230,7 +260,7 @@ const AsyncLock = require('./async_lock');
                             try {
                                 await _connect_clients(clients)
                             } catch (e) {
-                                if (e instanceof client.ClientError)
+                                if (e instanceof hpxclient.ClientError)
                                     send_error(client_id, e)
                                 else
                                     throw e
@@ -244,6 +274,9 @@ const AsyncLock = require('./async_lock');
                     else if (cmd == commands['status']) {
                         null
                     }
+                    else if (cmd == commands['logout']) {
+                        await _logout_clients(clients)
+                    }
 
                     try {
                         if (cmd == commands['handshake']) {
@@ -254,7 +287,7 @@ const AsyncLock = require('./async_lock');
                         }
 
                     } catch (e) {
-                        if (e instanceof client.AuthError)
+                        if (e instanceof hpxclient.AuthError)
                             send_error(client_id, e)
                         else
                             throw e
@@ -266,9 +299,10 @@ const AsyncLock = require('./async_lock');
                     d['accepted'] = clients['client']._accepted
                     d['guest_allowed'] = clients['client'].guest_allowed
                     d['version'] = clients['client'].version
+                    d['session'] = clients['client'].session
 
                 } catch (e) {
-                    if (e instanceof client.ServerError)
+                    if (e instanceof hpxclient.ServerError)
                         send_error(client_id, e)
                     else
                         throw e

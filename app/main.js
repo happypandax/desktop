@@ -8,7 +8,7 @@ nw.Window.open(
         "icon": "static/favicon/favicon.ico",
         "min_width": 500,
         "min_height": 500,
-        'inject_js_start': 'app/start.js'
+        'inject_js_start': 'app/start.js',
     },
     function (win) {
 
@@ -17,14 +17,14 @@ nw.Window.open(
             this.close(true)
         });
 
-        global.contextmenu = new nw.Menu();
-        global.contextmenu.createMacBuiltin("HappyPanda X Desktop");
-        global.contextmenu.append(new nw.MenuItem({ label: 'Quit' }));
+        // global.contextmenu = new nw.Menu();
+        // global.contextmenu.createMacBuiltin("HappyPanda X Desktop");
+        // global.contextmenu.append(new nw.MenuItem({ label: 'Quit' }));
 
-        //win.window.document.body.addEventListener('contextmenu', function (ev) {
+        // win.window.document.body.addEventListener('contextmenu', function (ev) {
         //    ev.preventDefault();
         //    global.contextmenu.popup(ev.x, ev.y);
         //    return false;
-        //});
+        // });
 
     });

@@ -1,4 +1,4 @@
-const client = require('../app/client');
+const hpxclient = require('happypandax-client');
 const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
@@ -85,8 +85,8 @@ function main() {
 
 async function check_connection(params) {
     if (!client_obj)
-        client_obj = new client.Client()
-    client_obj.set_server([params.server_host, params.server_port])
+        client_obj = new hpxclient.Client()
+    client_obj.set_server(params.server_host, params.server_port)
     try {
         return await client_obj.connect()
     } catch (e) {

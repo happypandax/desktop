@@ -29,3 +29,26 @@ function IS_SAME_MACHINE(host) {
     });
     return same;
 }
+
+class _DESKTOP_API {
+
+    constructor() {
+        this.context_menu = this.create_context_menu()
+    }
+
+    show_context_menu(ev) {
+        if (this.context_menu) {
+            this.context_menu.popup(ev.x, ev.y);
+            return false
+        }
+    }
+
+    create_context_menu() {
+        let menu = new nw.Menu();
+        menu.append(new nw.MenuItem({ label: 'Quit' }))
+        return menu
+    }
+
+}
+
+const DESKTOP_API = new _DESKTOP_API()

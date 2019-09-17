@@ -1,7 +1,7 @@
 {
   "name": "happypandax-desktop",
-  "description": "A client for HappyPanda X on the desktop",
-  "version": "0.1.1",
+  "description": "HappyPanda X Desktop",
+  "version": "0.2.0",
   "product_string": "HappyPanda X Desktop",
   "main": "app/main.js",
   "user-agent": "HappyPanda X Desktop/%ver/%osinfo",
@@ -13,17 +13,34 @@
     "version": "\"node -pe \"require('./package.json').version\"\""
   },
   "domain": "happypandax.desktop",
-  "chromium-args": "--mixed-context --enable-node-worker --user-data-dir=data --windows10-custom-titlebar --dark_muted --desktop-window-1080p --enable-smooth-scrolling --fast --hide-scrollbars --homedir=./",
-  "dependencies": {},
+  "chromium-args": "--remote-debugging-port=9324 --mixed-context --enable-node-worker --user-data-dir=data --windows10-custom-titlebar --dark_muted --desktop-window-1080p --enable-smooth-scrolling --fast --hide-scrollbars --homedir=./",
+  "dependencies": {
+    "happypandax-client": "^1.0.1"
+  },
   "devDependencies": {
     "nwjs-builder-phoenix": "^1.15.0"
+  },
+  "window": {
+    "icon": "static/favicon/mstile-144x144.png"
   },
   "build": {
     "nwVersion": "stable",
     "nwFlavor": "normal",
-    "files": [ "static/**/*", "app/**/*", "templates/**/*" ],
-    "excludes": [ "**/Thumbs.db" ],
-    "targets": [ "zip", "nsis" ],
+    "overriddenProperties": {
+      "chromium-args": "--mixed-context --enable-node-worker --user-data-dir=data --windows10-custom-titlebar --dark_muted --desktop-window-1080p --enable-smooth-scrolling --fast --hide-scrollbars --homedir=./"
+    },
+    "files": [
+      "static/**/*",
+      "app/**/*",
+      "templates/**/*"
+    ],
+    "excludes": [
+      "**/Thumbs.db"
+    ],
+    "targets": [
+      "zip",
+      "nsis"
+    ],
     "outputPattern": "${NAME}-${VERSION}-${PLATFORM}-${ARCH}",
     "appId": "com.happypandax.desktop",
     "win": {
