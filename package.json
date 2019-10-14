@@ -6,7 +6,7 @@
   "main": "app/main.js",
   "user-agent": "HappyPanda X Desktop/%ver/%osinfo",
   "scripts": {
-    "start": "electron .",
+    "start": "cross-env NODE_ENV=\"development\" && electron .",
     "dist-win": "build --tasks win-x86,win-x64 --mirror https://dl.nwjs.io/ .",
     "dist-osx": "build --tasks mac-x64 --mirror https://dl.nwjs.io/ .",
     "dist-linux": "build --tasks linux-x86,linux-x64 --mirror https://dl.nwjs.io/ .",
@@ -18,6 +18,7 @@
     "happypandax-client": "^1.0.1"
   },
   "devDependencies": {
+    "cross-env": "^6.0.3",
     "electron": "^6.0.9",
     "nwjs-builder-phoenix": "^1.15.0"
   },

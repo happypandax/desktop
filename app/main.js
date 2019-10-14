@@ -1,3 +1,4 @@
+const MenuBuilder = require('./menu')
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
@@ -20,6 +21,9 @@ function create_window () {
     win.loadFile('templates/index.html')
 
     win.webContents.openDevTools()
+
+    const menuBuilder = new MenuBuilder(win);
+    menuBuilder.buildMenu();
 
     win.on('closed', () => {
         win = null

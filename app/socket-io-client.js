@@ -84,7 +84,7 @@ function get_server() {
         if (request)
             await clients[main_client].request_auth()
         else
-            await clients[main_client].handshake(null, username, password)
+            await clients[main_client].handshake({user: username, password})
 
         for (var name in clients) {
             if (name == main_client)
