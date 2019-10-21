@@ -2,6 +2,8 @@ const EventEmitter = require('events');
 const crypto = require('crypto');
 const fs = require('fs');
 const hpxclient = require('happypandax-client');
+const storage = require('electron-json-storage');
+const util = require('util');
 
 const log = require('./log');
 const AsyncLock = require('./async_lock');
@@ -9,20 +11,16 @@ const AsyncLock = require('./async_lock');
 let options;
 
 function get_server() {
-    if (!options && fs.existsSync(global.CONFIG_PATH)) {
-        let data = fs.readFileSync(global.CONFIG_PATH, 'utf8')
-        if (data) {
-            options = JSON.parse(data)
+    await util.promisify(storage.get)('server').then(data => {options = data})
 
-            if (options.c_server_host !== undefined) {
-                global.SERVER.HOST = options.c_server_host
-            }
-
-            if (options.c_server_port !== undefined) {
-                global.SERVER.PORT = options.c_server_port
-            }
-        }
+    if (options.c_server_host !== undefined) {
+        global.SERVER.HOST = options.c_server_host
     }
+
+    if (options.c_server_port !== undefined) {
+        global.SERVER.PORT = options.c_server_port
+    }
+    
     return [global.SERVER.HOST, global.SERVER.PORT]
 }
 

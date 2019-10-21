@@ -1,5 +1,15 @@
 var __OS__ = require('os');
 
+const context = require('electron-contextmenu-middleware');
+const input = require('electron-input-menu');
+const debug = require('debug-menu').middleware;
+
+context.use(input);
+if (process.env.NODE_ENV == 'development') {
+    context.use(debug);
+}
+context.activate();
+
 global.SERVER = {
     HOST: 'localhost',
     PORT: 7007

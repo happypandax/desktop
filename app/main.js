@@ -1,13 +1,25 @@
-const MenuBuilder = require('./menu')
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, shell } = require('electron')
 const path = require('path')
+const { autoUpdater } = require("electron-updater")
+const windowStateKeeper = require('electron-window-state');
+
+process.env['NODE_ENV'] = app.isPackaged ? 'production' : 'development'
+app.setAppUserModelId("com.happypandax.desktop")
 
 function create_window () {
+
+    let mainWindowState = windowStateKeeper({
+      defaultWidth: 1024,
+      defaultHeight: 800
+    });
+
     let win = new BrowserWindow({
       title: "HappyPanda X Desktop",
       icon: "static/favicon/favicon.ico",
-      width: 1024,
-      height: 800,
+      x: mainWindowState.x,
+      y: mainWindowState.y,
+      width: mainWindowState.width,
+      height: mainWindowState.height,
       minWidth: 500,
       minHeight: 500,
       webPreferences: {
@@ -17,13 +29,19 @@ function create_window () {
       backgroundColor: '#f9f9f9',
       show: false
     })
+
+    if (process.env.NODE_ENV == 'production') {
+      win.setMenu(null)
+    } else {
+      win.webContents.openDevTools()
+    }
+    
+    win.webContents.on('new-window', function(e, url) {
+        e.preventDefault();
+        shell.openExternal(url);
+      });
   
     win.loadFile('templates/index.html')
-
-    win.webContents.openDevTools()
-
-    const menuBuilder = new MenuBuilder(win);
-    menuBuilder.buildMenu();
 
     win.on('closed', () => {
         win = null
@@ -32,6 +50,9 @@ function create_window () {
     win.once('ready-to-show', () => {
     win.show()
     })
+
+    autoUpdater.checkForUpdatesAndNotify()
+    mainWindowState.manage(win);
   }
   
 app.on('ready', create_window)

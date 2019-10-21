@@ -2215,6 +2215,186 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
   }
 }
 
+.BrainhubCarousel {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.BrainhubCarousel .BrainhubCarousel__trackContainer {
+  overflow: hidden;
+}
+
+.BrainhubCarousel .BrainhubCarousel__trackContainer .BrainhubCarousel__track {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.BrainhubCarousel .BrainhubCarousel__trackContainer .BrainhubCarousel__track.BrainhubCarousel__track--transition {
+  -webkit-transition: -webkit-transform;
+  transition: -webkit-transform;
+  transition: transform;
+  transition: transform, -webkit-transform;
+}
+
+/* arrows */
+
+.BrainhubCarousel__arrows {
+  cursor: pointer;
+}
+
+.BrainhubCarousel__arrows {
+  position: relative;
+  padding: 21px;
+  border: none;
+  overflow: hidden;
+  outline: 0;
+  font-size: 0;
+  line-height: 0;
+  background-color: #7b59ff;
+}
+
+.BrainhubCarousel__arrows span {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-style: solid;
+  border-color: #fff;
+  border-width: 3px 3px 0 0;
+  padding: 5px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  font-size: 0;
+}
+
+.BrainhubCarousel__arrows:hover {
+  background-color: #8768ff;
+}
+
+.BrainhubCarousel__arrows:hover span {
+  border-color: #fff;
+  margin: 0;
+}
+
+.BrainhubCarousel__arrowLeft span {
+  -webkit-transform: translate(-50%, -50%) rotate(-135deg);
+  transform: translate(-50%, -50%) rotate(-135deg);
+  margin-left: 2.45px;
+}
+
+.BrainhubCarousel__arrowRight span {
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+  margin-left: -2.45px;
+}
+
+/* variables */
+
+.BrainhubCarousel__dots {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__dot {
+  outline: 0;
+  padding: 10px;
+  border: none;
+  opacity: 0.5;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__dot.BrainhubCarousel__dot--selected {
+  opacity: 1 !important;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__dot:hover {
+  opacity: 1;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__dot:before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  background: black;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__thumbnail {
+  outline: 0;
+  padding: 10px;
+  border: none;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__thumbnail.BrainhubCarousel__thumbnail--selected {
+  opacity: 1 !important;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__thumbnail:hover {
+  opacity: 1;
+}
+
+.BrainhubCarousel__thumbnail[type=button] {
+  -webkit-appearance: none;
+}
+
+.BrainhubCarouselItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+}
+
+.BrainhubCarouselItem.BrainhubCarouselItem--clickable {
+  cursor: pointer;
+}
+
+.BrainhubCarouselItem .debug-number {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 2em;
+  text-shadow: 0px 0px 9px white;
+}
+
 /* Slider */
 
 .slick-slider {
@@ -2844,6 +3024,10 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
   min-width: 0;
 }
 
+.hpxlogo {
+  width: 10em;
+}
+
 .window-height {
   max-height: 100vh !important;
 }
@@ -3045,6 +3229,18 @@ i.medium-size {
   margin: 5px;
 }
 
+.medium-margin {
+  margin: 10px;
+}
+
+.medium-margin-left {
+  margin-left: 10px;
+}
+
+.medium-margin-right {
+  margin-right: 10px;
+}
+
 .pos-absolute {
   position: absolute;
 }
@@ -3176,7 +3372,8 @@ h6 {
   font-size: 1rem !important;
 }
 
-.center-text {
+.center-text,
+.text-center {
   text-align: center;
 }
 
@@ -3269,6 +3466,18 @@ h6 {
      Minimum Height
 ---------------*/
 
+.\!min-0-h {
+  min-height: 0 !important;
+}
+
+.min-0-h {
+  min-height: 0;
+}
+
+.min-100-h {
+  min-height: 100pt;
+}
+
 .min-200-h {
   min-height: 200pt;
 }
@@ -3293,9 +3502,27 @@ h6 {
   min-height: 700pt;
 }
 
+.min-90-vh {
+  min-height: 90vh;
+}
+
+.min-95-vh {
+  min-height: 95vh;
+}
+
 /*--------------
      Maximum Height
 ---------------*/
+
+.max-auto-h {
+  max-height: auto;
+  overflow-y: auto;
+}
+
+.max-100-h {
+  max-height: 100pt;
+  overflow-y: auto;
+}
 
 .max-200-h {
   max-height: 200pt;
@@ -21750,6 +21977,21 @@ ol.ui.horizontal.list li:before,
 .ui.segment.fluid {
   width: 100%;
 }
+
+.ui.segment.slider {
+  padding-top: 2em;
+  padding-bottom: 1em;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ui.segment.slider.secondary {
+  padding-top: 1em;
+}
+
+.ui.segment.slider.tertiary {
+  padding-top: 1em;
+}
 /*!
  * # Semantic UI 2.4.2 - Step
  * http://github.com/semantic-org/semantic-ui/
@@ -31618,15 +31860,20 @@ a.ui.card:hover,
   -webkit-box-direction: normal;
   -ms-flex-direction: row;
   flex-direction: row;
-  min-width: 350px;
-  width: 500;
+  min-width: 100px;
+  width: 500px;
 }
 
 .ui.card.fluid {
   width: 100% !important;
 }
 
-.ui.card.horizontal.mini-size > .content {
+.ui.cards > .ui.card.horizontal {
+  min-width: 350px;
+}
+
+.ui.card.horizontal.mini-size > .content,
+.ui.card.horizontal.small-size > .content {
   padding: 5px;
 }
 
@@ -31635,11 +31882,21 @@ a.ui.card:hover,
   height: 50px;
 }
 
-.ui.card.horizontal.mini-size > .image {
+.ui.card.horizontal.small-size,
+.ui.card.horizontal.small-size > .image {
+  height: 75px;
+}
+
+.ui.card.horizontal.small-size {
+  max-width: 9999px !important;
+}
+
+.ui.card.horizontal.mini-size > .image,
+.ui.card.horizontal.small-size > .image {
   width: auto !important;
 }
 
-.ui.card.horizontal > .image:not(.mini-size) {
+.ui.card.horizontal > .image:not(.mini-size):not(.small-size) {
   border-radius: 0;
   width: 150px;
 }
@@ -31662,7 +31919,8 @@ a.ui.card:hover,
   border-radius: 0;
 }
 
-.ui.cards > .card.horizontal.mini-size {
+.ui.cards > .card.horizontal.mini-size,
+.ui.cards > .card.horizontal.small-size {
   margin: 0.15em 0.5em;
 }
 
@@ -40271,10 +40529,6 @@ body.pushable > .pusher {
 .ui.visible.very.thin.left.sidebar ~ .fixed,
 .ui.visible.very.thin.left.sidebar ~ .pusher {
   padding-right: 60px;
-}
-
-.ui.sidebar {
-  overflow-y: auto;
 }
 /*!
  * # Semantic UI 2.4.2 - Sticky

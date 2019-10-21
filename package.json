@@ -1,67 +1,62 @@
 {
   "name": "happypandax-desktop",
   "description": "HappyPanda X Desktop",
+  "homepage": "https://github.com/happypandax/happypandax",
+  "repository": "https://github.com/happypandax/happypandax",
+  "author": {
+    "name": "Twiddly"
+  },
   "version": "0.2.0",
   "product_string": "HappyPanda X Desktop",
   "main": "app/main.js",
   "user-agent": "HappyPanda X Desktop/%ver/%osinfo",
   "scripts": {
     "start": "cross-env NODE_ENV=\"development\" && electron .",
-    "dist-win": "build --tasks win-x86,win-x64 --mirror https://dl.nwjs.io/ .",
-    "dist-osx": "build --tasks mac-x64 --mirror https://dl.nwjs.io/ .",
-    "dist-linux": "build --tasks linux-x86,linux-x64 --mirror https://dl.nwjs.io/ .",
+    "dist-pack": "electron-builder --dir",
+    "release": "build",
     "version": "\"node -pe \"require('./package.json').version\"\""
   },
   "domain": "happypandax.desktop",
   "chromium-args": "--remote-debugging-port=9324 --mixed-context --enable-node-worker --user-data-dir=data --windows10-custom-titlebar --dark_muted --desktop-window-1080p --enable-smooth-scrolling --fast --hide-scrollbars --homedir=./",
   "dependencies": {
+    "debug-menu": "^0.6.1",
+    "electron-contextmenu-middleware": "^1.0.3",
+    "electron-input-menu": "^2.1.0",
+    "electron-json-storage": "^4.1.8",
+    "electron-updater": "^4.1.2",
+    "electron-window-state": "^5.0.3",
     "happypandax-client": "^1.0.1"
   },
   "devDependencies": {
     "cross-env": "^6.0.3",
-    "electron": "^6.0.9",
-    "nwjs-builder-phoenix": "^1.15.0"
+    "electron-builder": "^21.2.0",
+    "electron": "^6.0.9"
   },
   "window": {
     "icon": "static/favicon/mstile-144x144.png"
   },
   "build": {
-    "nwVersion": "stable",
-    "nwFlavor": "normal",
-    "overriddenProperties": {
-      "chromium-args": "--mixed-context --enable-node-worker --user-data-dir=data --windows10-custom-titlebar --dark_muted --desktop-window-1080p --enable-smooth-scrolling --fast --hide-scrollbars --homedir=./"
-    },
+    "publish": [
+      "github"
+    ],
     "files": [
       "static/**/*",
       "app/**/*",
       "templates/**/*"
     ],
-    "excludes": [
-      "**/Thumbs.db"
-    ],
-    "targets": [
-      "zip",
-      "nsis"
-    ],
-    "outputPattern": "${NAME}-${VERSION}-${PLATFORM}-${ARCH}",
     "appId": "com.happypandax.desktop",
+    "productName": "HappyPanda X Desktop",
     "win": {
-      "appName": "HappyPanda X Desktop",
-      "productName": "HappyPanda X Desktop",
-      "companyName": "Twiddly",
-      "icon": "deploy/icons/app.ico",
-      "copyright": "Copyright © 2018, Twiddly, All Rights Reserved"
+      "icon": "deploy/icons/app.ico"
     },
     "mac": {
-      "name": "HappyPanda X Desktop",
-      "displayName": "HappyPanda X Desktop",
-      "copyright": "Copyright © 2018, Twiddly, All Rights Reserved",
-      "icon": "deploy/icons/app.icns",
-      "documentIcon": "deploy/icons/app.icns"
+      "icon": "deploy/icons/app.icns"
     },
     "nsis": {
-      "icon": "deploy/icons/app.ico",
-      "unIcon": "deploy/icons/app.ico"
+      "installerIcon": "deploy/icons/app.ico",
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "uninstallerIcon": "deploy/icons/app.ico"
     }
   }
 }

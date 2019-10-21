@@ -2,6 +2,8 @@ const hpxclient = require('happypandax-client');
 const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
+const storage = require('electron-json-storage');
+const util = require('util');
 
 const HPX_HTML = "../templates/hpx.html"
 
@@ -15,49 +17,47 @@ let options = {
     start_webport: 7008
 }
 
-function main() {
+async function main() {
 
-    if (fs.existsSync(global.CONFIG_PATH)) {
-        let data = fs.readFileSync(global.CONFIG_PATH, 'utf8')
-        options = updateObject(options, JSON.parse(data))
-        if (options.default !== undefined) {
-            switch (options.default) {
-                case 'start':
-                    document.getElementsByName('default-start')[0].checked = true
-                    break;
-                case 'connect':
-                    document.getElementsByName('default-connect')[0].checked = true
-                    break;
-            }
-        }
+    await util.promisify(storage.get)('server').then(data => {options = data})
 
-        if (options.executable !== undefined) {
-            document.getElementsByName('executable')[0].value = options.executable
+    if (options.default !== undefined) {
+        switch (options.default) {
+            case 'start':
+                document.getElementsByName('default-start')[0].checked = true
+                break;
+            case 'connect':
+                document.getElementsByName('default-connect')[0].checked = true
+                break;
         }
+    }
 
-        if (options.server_host !== undefined) {
-            document.getElementsByName('server-host')[0].value = options.server_host
-        }
+    if (options.executable !== undefined) {
+        document.getElementsByName('executable')[0].value = options.executable
+    }
 
-        if (options.server_port !== undefined) {
-            document.getElementsByName('server-port')[0].value = options.server_port
-        }
+    if (options.server_host !== undefined) {
+        document.getElementsByName('server-host')[0].value = options.server_host
+    }
 
-        if (options.start_host !== undefined) {
-            document.getElementsByName('start-host')[0].value = options.start_host
-        }
+    if (options.server_port !== undefined) {
+        document.getElementsByName('server-port')[0].value = options.server_port
+    }
 
-        if (options.start_port !== undefined) {
-            document.getElementsByName('start-port')[0].value = options.start_port
-        }
+    if (options.start_host !== undefined) {
+        document.getElementsByName('start-host')[0].value = options.start_host
+    }
 
-        if (options.start_webhost !== undefined) {
-            document.getElementsByName('start-webhost')[0].value = options.start_webhost
-        }
+    if (options.start_port !== undefined) {
+        document.getElementsByName('start-port')[0].value = options.start_port
+    }
 
-        if (options.start_webport !== undefined) {
-            document.getElementsByName('start-webport')[0].value = options.start_webport
-        }
+    if (options.start_webhost !== undefined) {
+        document.getElementsByName('start-webhost')[0].value = options.start_webhost
+    }
+
+    if (options.start_webport !== undefined) {
+        document.getElementsByName('start-webport')[0].value = options.start_webport
     }
 
     // Got here using the browser "Back" or "Forward" button
@@ -95,7 +95,7 @@ async function check_connection(params) {
     return false;
 }
 
-function update_options(opt, sync) {
+async function update_options(opt) {
     switch (opt.default) {
         case 'start':
             document.getElementsByName('default-connect')[0].checked = false
@@ -105,10 +105,7 @@ function update_options(opt, sync) {
             break;
     }
     updateObject(options, opt)
-    if (sync)
-        fs.writeFileSync(global.CONFIG_PATH, JSON.stringify(options), 'utf8')
-    else
-        fs.writeFile(global.CONFIG_PATH, JSON.stringify(options), 'utf8', () => { })
+    await util.promisify(storage.set)('server', options)
 }
 
 function on_default_option(el) {
@@ -157,7 +154,7 @@ function on_server_option(el) {
 }
 
 function enter_hpx() {
-    fs.writeFileSync(global.CONFIG_PATH, JSON.stringify(options), 'utf8')
+    await util.promisify(storage.set)('server', options)
     window.location.href = HPX_HTML
 }
 
