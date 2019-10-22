@@ -34,7 +34,7 @@ install:
     - npm install
 
 before_deploy:
-    - npm run dist-ci
+    - npm run dist
 
     - export APP_VERSION=$(node -pe "require('./package.json').version")
     - export APP_RELEASE_NAME="HappyPanda X Desktop v$APP_VERSION"
