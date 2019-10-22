@@ -26,7 +26,7 @@ cache:
         - node_modules
 
 before_install:
-    - nvm install 10; fi
+    - nvm install 10
     - node --version
     - npm update -g npm
 
@@ -34,7 +34,7 @@ install:
     - npm install
 
 before_deploy:
-    - npm run dist
+    - npm run dist-ci
 
     - export APP_VERSION=$(node -pe "require('./package.json').version")
     - export APP_RELEASE_NAME="HappyPanda X Desktop v$APP_VERSION"
