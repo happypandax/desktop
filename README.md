@@ -25,4 +25,4 @@
 - Run `cd path/to/cloned/repo`
 - Run `npm install`
 - Run `npm start` to start the application
-- Run `npm dist-[platform]` where `[platform]` is one of (`osx`, `linux`, `win`) to build binaries, which can be found in `./dist`
+- Run `npm dist` to build binaries, which can be found in `./dist`

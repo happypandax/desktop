@@ -12,7 +12,7 @@ env:
         - GH_MAIL=pew@pewpew.moe
         - REPO=happypandax/desktop
         - DEPLOY_REPO=happypandax/desktop
-        - secure: vCKcIOnhT0j057+SIDaYdGzymoDBc7Gl395mDLiETcdi4E4FsHNUx+bCa8gT3eeB70sQWTRSZJEbyQIkWejA53rx4dlum5e68CgOUbYx9aAl4vK/PKCL2SYxzJTqEgvqL4a3zkIdjjrHriIAix3UXl6ZbjQGKE6atI6NewKh1p+eEN8sExQ6+WMNzmwQg2Or07COK/nTaGTay0UAaZ+iX2H+ljspNvFbxLUkb+o/x0UILcmVnCerqGQZ1D8pKMy4e6JIv6Zco9m8Oqhen9/+vDZDOalXFOx5Ctf/1QEnZIbyNOQqpvb8s84g0swn5QUwcGNYQ7YNTHU/1jc/qQwy+DR/131O3jGvs/GUoMiZ3wWhkheRqqR/nhy+j340F53EUuiJSsX0KMvjOfdeT3D+gkmfr9omPK/KSwsbxMiTQ3UhjYtEat4Fp3Eq6e3nB8C1+Bbu85cQOyb31cWA5jc7z2wX2UkRZrnPqv0dnVFrRBfaJx2pUAtpCy1Skz2xlwqFwB7/uSXDEUuNvI/6gDcuNWLgDE9Zj4U8P3O+rucyO5M5Z+G8yNsFES1+7fQE52x2vL0lwL+3VJL7OnKyuqDLIG6nXmIsffk7VXV/Ccngux5Y8DsVF2gRJwIlN99mnv5pv81awBXytj0ip5UubLULQykolc2c9Kq8PNWHCIZ2U6w=
+        - secure: "J8Yy4o3sozjtoBe8jKvBiBjOGpmvnCgU3tVlpp/PnHC9+5HfBiCeRJ7dsHGehInC3WLPNA30Uo3jontr0O1DWkBTtsTxNJO2/a8sqO3B0sTQHB+yLg7B1tD4wxkgZKDQ30Am7gbNxAiNz1PeHEgsLcDH8v/Z1js+3+/j8/veaDYKuO8UjVB5krBPNc68KDZu/eBbxMiSMuS0N5qR2vEJksriXPxL6KRixRLYCWLe6NT8dES0vjDPYCheaiIG2j9uzZeYGf8LQfwFTNeZMJZf+0jEvDDNvjbKBlF+mvQhgo4131BYVbzraWDEV1zlWTn4qU7mqKz4XRCYHlalruyrmdixineLlCDSqjDpv0L8GN1bqbPgvPll53Luo5ZmL/kZWLYSbm3jRtYbdDW5S9T8vDxcDJVnttizPCBcFhNYwxPswUUENJVMTp9bAuRv4lh+TXiE18dMyRU0oMeXgTfRyaEXVGr0m5pD7Q84rUkgWbEKWPGMFaaP54qS91uu/EG6eWJSn+W/0juiXifiN4sQ01RS35BTuEXBCfT0jtEfh9xzn7rB9q6X22ZFtxBt8XsoYEG5m9uvKuYRcUXhTelAxWAbqgISwyhIpPsp3aZrhxD5Pb9j+vUpmCJI9GRCxRknT+QsQTFuTR69b4K/OU3xvFHP18dpY9IKonsf4vgmQW4="
 matrix:
     include:
         - os: linux
@@ -34,8 +34,7 @@ install:
     - npm install
 
 before_deploy:
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm run dist-linux; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run dist-osx; fi
+    - npm run dist
 
     - export APP_VERSION=$(node -pe "require('./package.json').version")
     - export APP_RELEASE_NAME="HappyPanda X Desktop v$APP_VERSION"
@@ -47,7 +46,7 @@ before_deploy:
     - git config --local user.name "$GH_USER"
     - git config --local user.email "$GH_MAIL"
     - git tag -a $VERSION_TAG -m "$APP_RELEASE_NAME" || echo "Tag already exists, skipping"
-    - git push --quiet "https://$GITHUB_TOKEN@github.com/$DEPLOY_REPO.git" $VERSION_TAG > /dev/null 2>&1 || echo  "Tag already exists, skipping"
+    - git push --quiet "https://$GH_TOKEN@github.com/$DEPLOY_REPO.git" $VERSION_TAG > /dev/null 2>&1 || echo  "Tag already exists, skipping"
     - echo $APP_RELEASE_NAME
     - cd $CWD
 
@@ -67,7 +66,7 @@ deploy:
     file: dist/*
     draft: true
     target_commitish: master
-    api_key: $GITHUB_TOKEN
+    api_key: $GH_TOKEN
     repo: $DEPLOY_REPO
     on:
         branch: master

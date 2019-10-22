@@ -10,7 +10,7 @@ const AsyncLock = require('./async_lock');
 
 let options;
 
-function get_server() {
+async function get_server() {
     await util.promisify(storage.get)('server').then(data => {options = data})
 
     if (options.c_server_host !== undefined) {
@@ -20,7 +20,7 @@ function get_server() {
     if (options.c_server_port !== undefined) {
         global.SERVER.PORT = options.c_server_port
     }
-    
+
     return [global.SERVER.HOST, global.SERVER.PORT]
 }
 
@@ -34,9 +34,9 @@ function get_server() {
     let lock = new AsyncLock()
     let all_emitters = {}
 
-    function _create_clients(id, session_id) {
+    async function _create_clients(id, session_id) {
 
-        let [host, port] = get_server()
+        let [host, port] = await get_server()
 
         session_id = session_id || ""
         all_clients[id] = {
@@ -96,9 +96,9 @@ function get_server() {
 
     }
 
-    function get_clients(id, session_id) {
+    async function get_clients(id, session_id) {
         if (!all_clients.hasOwnProperty(id)) {
-            _create_clients(id, session_id)
+            await _create_clients(id, session_id)
         }
         clients = all_clients[id]
 
@@ -171,7 +171,7 @@ function get_server() {
                 'command': async msg => {
 
                     let f = async (msg) => {
-                        clients = get_clients(!(msg.session_id === undefined) ? msg.session_id : "default")
+                        clients = await get_clients(!(msg.session_id === undefined) ? msg.session_id : "default")
                         await this.on_command_handle(sid, clients, msg)
                     }
                     await f(msg).catch(e => {
@@ -180,7 +180,7 @@ function get_server() {
                 },
                 'server_call': async msg => {
                     let f = async (msg) => {
-                        clients = get_clients(!(msg.session_id === undefined) ? msg.session_id : "default")
+                        clients = await get_clients(!(msg.session_id === undefined) ? msg.session_id : "default")
                         await this.on_server_call_handle(sid, clients[main_client], msg)
                     }
                     await f(msg).catch(e => {
@@ -216,7 +216,7 @@ function get_server() {
         }
 
         async on_server_call_handle(client_id, client, msg, kwargs) {
-            let root_client = get_clients(!(msg.session_id === undefined) ? msg.session_id : "default")[main_client]
+            let root_client = await get_clients(!(msg.session_id === undefined) ? msg.session_id : "default")[main_client]
             let data = await call_server(client_id, msg['msg'], root_client, client)
             msg['msg'] = data
             all_emitters[client_id].emit('server_call', msg)

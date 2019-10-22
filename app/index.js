@@ -153,7 +153,7 @@ function on_server_option(el) {
     update_options(opt)
 }
 
-function enter_hpx() {
+async function enter_hpx() {
     await util.promisify(storage.set)('server', options)
     window.location.href = HPX_HTML
 }
