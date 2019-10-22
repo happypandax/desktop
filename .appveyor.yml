@@ -44,6 +44,8 @@ before_deploy:
     - git tag -a %VERSION_TAG% -m "%APP_RELEASE_NAME%" & exit 0
     - git push --quiet "https://%GH_TOKEN%@github.com/%REPO%.git" %VERSION_TAG% >nul 2>&1 & exit 0
     - dir "dist"
+    - ps: Get-ChildItem .\dist\*.yml | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+    - ps: Get-ChildItem .\dist\*.blockmap | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
     - ps: Get-ChildItem .\dist\*.zip | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
     - ps: Get-ChildItem .\dist\*.exe | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
