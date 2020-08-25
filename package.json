@@ -6,7 +6,7 @@
   "author": {
     "name": "Twiddly"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "product_string": "HappyPanda X Desktop",
   "main": "app/main.js",
   "user-agent": "HappyPanda X Desktop/%ver/%osinfo",
